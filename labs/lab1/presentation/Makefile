@@ -15,8 +15,11 @@ PDF_OPTIONS += --number-sections
 
 REVEALJS_THEME = beige
 
+# Добавить путь к папке, где находится pgfopts.sty
+TEXINPUTS=:/usr/local/texlive/2025/texmf-dist/tex/latex/pgfopts
+
 %.pdf: %.md
-	-@pandoc "$<" $(FILTERS) $(PDF_ENGINE) $(PDF_OPTIONS) $(PDF_FORMAT_OPTIONS) -o "$@"
+	-@pandoc "$<" $(FILTERS) $(PDF_ENGINE) $(PDF_OPTIONS) $(PDF_FORMAT_OPTIONS) --variable TEXINPUTS=":/usr/local/texlive/2025/texmf-dist/tex/latex/pgfopts" -o "$@"
 
 %.html: %.md
 	-@pandoc "$<" --embed-resources --standalone -t revealjs -V theme=$(REVEALJS_THEME) -o "$@"
@@ -28,5 +31,4 @@ all: $(FILES)
 
 clean:
 	-@rm $(FILES) *~
-
 cleanall: clean
